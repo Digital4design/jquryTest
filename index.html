@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script>
+    var myjsonObj = '[{"firstname":"manish","lastname":"kumar"},{"firstname":"parry","lastname":"kumar"}]';
+    var jsObj = JSON.parse(myjsonObj);
+    console.log(jsObj[1].firstname);
+    console.log(jsObj[1].lastname);
+
+    var studentArray = [];
+
+    function init() {
+      document.getElementById('tablerows').innerHTML="";
+      if (localStorage.studentsRecord) {
+        studentArray = JSON.parse(localStorage.studentsRecord);
+        for (var i = 0; i < studentArray.length; i++) {
+          var firstName = studentArray[i].firstname;
+          var lastName = studentArray[i].lastname;
+          var rollNun = studentArray[i].rollnum;
+          var subject = studentArray[i].subject;
+          prepareTableCell(i, firstName, lastName, rollNun);
+        }
+      }
+    }
+
+    function onRegisterPressed() {
+
+      //console.log("Hello Here");
+      var firstName = document.getElementById('firstname').value;
+      var lastName = document.getElementById('lastname').value;
+      var rollNum = document.getElementById('rollnum').value;
+      // var subject = document.getElementById('subject').value;
+      var stuObj = { firstname: firstName, lastname: lastName, rollnum: rollNum };
+      //console.log(stuObj);
+      studentArray.push(stuObj);
+
+      localStorage.studentsRecord = JSON.stringify(studentArray);
+      init();
+
+     // prepareTableCell(index, firstName, lastName, rollNum, subject);
+
+      document.getElementById('firstname').value = '';
+      document.getElementById('lastname').value = '';
+      document.getElementById('rollnum').value = '';
+
+
+    }
+    function prepareTableCell(index, firstName, lastName, rollNum) {
+
+      var table = document.getElementById('tablerows');
+      var row = table.insertRow();
+      var firstNameCell = row.insertCell(0);
+      var lastNameCell = row.insertCell(1);
+      var rollNumCell = row.insertCell(2);
+      // var subjectCell = row.insertCell(3);
+      var actionCell = row.insertCell(3);
+
+      firstNameCell.innerHTML = firstName;
+      lastNameCell.innerHTML = lastName;
+      rollNumCell.innerHTML = rollNum;
+      // subjectCell.innerHTML = subject;
+      actionCell.innerHTML = '<button onclick="deleteTableRow(' + index + ')">Delete</button>';
+    }
+    function deleteTableRow(index) {
+      var table = document.getElementById('tablerows');
+      table.deleteRow(index);
+      studentArray.splice(index,1);
+      localStorage.studentsRecord =JSON.stringify(studentArray);
+    }
+  </script>
+</head>
+
+<body onload="init()">
+
+  <div class="container">
+    <h2>Todo List</h2>
+    <form action="">
+      <div class="form-group">
+        <label for="firstname">Task Name:</label>
+        <input type="text" class="form-control" id="firstname" placeholder="Enter Task Name" name="firstname">
+      </div>
+      <div class="form-group">
+        <label for="lastname">Task Date:</label>
+        <input type="date" class="form-control" id="lastname" placeholder="Enter Task Date" name="lastname">
+      </div>
+      <div class="form-group">
+        <label for="rollnum">Task Description:</label>
+        <input type="text" class="form-control" id="rollnum" placeholder="Enter Task Description" name="rollnum">
+      </div>
+      <!-- <div class="form-group">
+        <label for="subject">Subject:</label>
+        <select class="form-control" name="subject" id="subject">
+          <option value="Math">Math</option>
+          <option value="Physics">Physics</option>
+          <option value="Chemistry">Chemistry</option>
+        </select>
+      </div> -->
+      <button type="submit" onclick="onRegisterPressed()" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+
+  <table class="table" id="regtable">
+    <thead>
+      <tr>
+        <th scope="col">Task Name</th>
+        <th scope="col">Task Date</th>
+        <th scope="col">Task Description</th>
+        <!-- <th scope="col">Subject</th> -->
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody id="tablerows">
+
+    </tbody>
+  </table>
+
+</body>
+
+</html>
