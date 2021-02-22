@@ -37,15 +37,12 @@
       var firstName = document.getElementById('firstname').value;
       var lastName = document.getElementById('lastname').value;
       var rollNum = document.getElementById('rollnum').value;
-      // var subject = document.getElementById('subject').value;
       var stuObj = { firstname: firstName, lastname: lastName, rollnum: rollNum };
-      //console.log(stuObj);
       studentArray.push(stuObj);
 
       localStorage.studentsRecord = JSON.stringify(studentArray);
       init();
 
-     // prepareTableCell(index, firstName, lastName, rollNum, subject);
 
       document.getElementById('firstname').value = '';
       document.getElementById('lastname').value = '';
@@ -60,13 +57,11 @@
       var firstNameCell = row.insertCell(0);
       var lastNameCell = row.insertCell(1);
       var rollNumCell = row.insertCell(2);
-      // var subjectCell = row.insertCell(3);
       var actionCell = row.insertCell(3);
 
       firstNameCell.innerHTML = firstName;
       lastNameCell.innerHTML = lastName;
       rollNumCell.innerHTML = rollNum;
-      // subjectCell.innerHTML = subject;
       actionCell.innerHTML = '<button onclick="deleteTableRow(' + index + ')">Delete</button>';
     }
     function deleteTableRow(index) {
@@ -95,14 +90,7 @@
         <label for="rollnum">Task Description:</label>
         <input type="text" class="form-control" id="rollnum" placeholder="Enter Task Description" name="rollnum">
       </div>
-      <!-- <div class="form-group">
-        <label for="subject">Subject:</label>
-        <select class="form-control" name="subject" id="subject">
-          <option value="Math">Math</option>
-          <option value="Physics">Physics</option>
-          <option value="Chemistry">Chemistry</option>
-        </select>
-      </div> -->
+    
       <button type="submit" onclick="onRegisterPressed()" class="btn btn-default">Submit</button>
     </form>
   </div>
@@ -113,7 +101,6 @@
         <th scope="col">Task Name</th>
         <th scope="col">Task Date</th>
         <th scope="col">Task Description</th>
-        <!-- <th scope="col">Subject</th> -->
         <th scope="col">Action</th>
       </tr>
     </thead>
